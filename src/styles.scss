@@ -3,20 +3,21 @@
 }
 
 a, button, nav li {
-    cursor: url(/pointer.svg) 5 5, auto;
+    cursor: url(/cursors/pointer.svg) 5 5, auto!important;
 }
 
 input, textarea {
-    cursor: url(/pencil.svg) 5 5, auto;
+    cursor: url(/cursors/pencil.svg) 5 5, auto;
 }
 
 body, html {
     background: #0a0a1b;
     color: white;
     margin: 0;
-    cursor: url(/cursor.svg) 5 5, auto;
+    cursor: url(/cursors/cursor.svg) 5 5, auto;
 }
 
 main {
     display: flex;
+    overflow:hidden;
 }

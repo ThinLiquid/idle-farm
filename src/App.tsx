@@ -7,10 +7,12 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 import Nav from './components/Nav';
 import NavList from './components/NavList';
-import NavItem from './components/NavItem';
-import NavDivider from './components/NavDivider';
+import NavItem from './components/NavButton';
 
 import { MdHome, MdShoppingBag, MdEmojiEvents, MdSettings } from "react-icons/md";
+
+import Home from './pages/Home';
+import InfoPanel from './components/InfoPanel';
 
 const Container = styled.div`
     background: #1a1a2b;
@@ -22,16 +24,17 @@ const Container = styled.div`
     box-shadow: 0 0 20px rgba(0,0,0,0.3);
 `;
 
-function Home() {
-  return (
-    <div style={{ padding: 20 }}>
-      <h2>Home View</h2>
-      <p>Lorem ipsum dolor sit amet, consectetur adip.</p>
-    </div>
-  );
+interface IGameContext {
+  coins: number;
+  setCoins: React.Dispatch<React.SetStateAction<number>>;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-empty-function
+export const GameContext = React.createContext<IGameContext>({ coins: 0, setCoins: () => {} });
+
 const App: React.FC = () => {
+  const [coins, setCoins] = React.useState(0);
+
   return (
     <main>
       <Router>
@@ -45,13 +48,15 @@ const App: React.FC = () => {
         </NavList>
       </Nav>
       <Container>
-        
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/store" element={<Home />} />
-            <Route path="/stats" element={<Home />} />
-            <Route path="/settings" element={<Home />} />
-          </Routes>
+          <GameContext.Provider value={{ coins, setCoins }}>
+            <InfoPanel />
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/store" element={<Home />} />
+              <Route path="/stats" element={<Home />} />
+              <Route path="/settings" element={<Home />} />
+            </Routes>
+          </GameContext.Provider>
       </Container>
       </Router>
     </main>

@@ -1,14 +1,18 @@
 import styled from "@emotion/styled";
 
-import { Link, useLocation } from "react-router-dom";
+import { Link, LinkProps, useLocation } from "react-router-dom";
 
-interface NavItemProps {
+interface INavButton {
     title: string;
     icon: React.ReactNode;
     to: string;
 }
 
-const NavButton = styled.button<{ active: boolean; }>`
+interface INavLink extends LinkProps {
+    active: boolean;  
+}
+
+const NavLink = styled(Link)<INavLink>`
     background: ${props => props.active ? "#1a1a2b" : "transparent"};
     border: none;
     color: white;
@@ -20,9 +24,15 @@ const NavButton = styled.button<{ active: boolean; }>`
     transition: .2s box-shadow, .2s background, .2s outline;
     outline: ${props => props.active ? "3px" : "10px"} solid transparent;
     box-shadow: 0 0 27px transparent;
+    padding:20px 30px;
+    position:relative;
 
     & > * {
         font-size:20px;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
     }
 
     &:hover {
@@ -32,7 +42,7 @@ const NavButton = styled.button<{ active: boolean; }>`
     }
 `
 
-const NavItem: React.FC<NavItemProps> = (props: NavItemProps) => {
+const NavButton: React.FC<INavButton> = (props: INavButton) => {
     const location = useLocation();
     let active = false;
 
@@ -42,13 +52,11 @@ const NavItem: React.FC<NavItemProps> = (props: NavItemProps) => {
 
     return (
         <li>
-            <Link to={props.to}>
-                <NavButton active={active}>
-                    {props.icon}
-                </NavButton>
-            </Link>
+            <NavLink to={props.to} active={active}>
+                {props.icon}
+            </NavLink>
         </li>
     )
 }
 
-export default NavItem;
+export default NavButton;
